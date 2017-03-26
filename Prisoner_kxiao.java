@@ -1,7 +1,7 @@
 // Prisoner_cxzhang.java: sample implementation for Prisoner
 // COS 445, Spring 2017
 
-public class Prisoner_cxzhang implements Prisoner {
+public class Prisoner_kxiao implements Prisoner {
     private int nRounds = 0; // how many rounds have elapsed?
     private boolean lastPlay = true; // what did my partner play last?
 

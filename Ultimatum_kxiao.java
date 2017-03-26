@@ -1,7 +1,7 @@
 // Ultimatum_smattw.java: sample implementation for Ultimatum
 // COS 445, Spring 2017
 
-public class Ultimatum_smattw implements Ultimatum {
+public class Ultimatum_kxiao implements Ultimatum {
  // sample Alice strategy
     public int propose(double a) {
      // first round: propose that I get 60, you get 40
