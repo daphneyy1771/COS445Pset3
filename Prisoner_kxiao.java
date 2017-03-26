@@ -4,16 +4,26 @@
 public class Prisoner_kxiao implements Prisoner {
     private int nRounds = 0; // how many rounds have elapsed?
     private boolean lastPlay = true; // what did my partner play last?
+    private boolean lastLastPlay = true; // what did my partner play 2 rounds ago?
+    private boolean lastLastLastPlay = true; // what did my partner play 3 rounds ago?
+    private int defects = 0; // how many times has my partner defected
 
     // sample implementation of tit-for-tat
     public boolean cooperate() {
-        // every 100 rounds, play something random (a bad idea)
-        if (nRounds % 100 == 99) {
-            return Math.random() < 0.5;
+        // if partner defected three times in a row, then defect
+        if (!lastPlay && !lastLastPlay && !lastLastLastPlay) {
+            return false;
         }
-
-        // otherwise, copy partner's last move
-        return lastPlay;
+        else {
+            // after round 800, return defect randomly
+            // with quadratically increaasing probability 
+            if (nRounds > 799) {
+                double cutoff = ((nRounds-799) * (nRounds-799)) / (200.0 * 200.0) * 0.8;
+                return Math.random() > cutoff;
+            }
+            else
+                return true;
+        }
     }
 
     // sample implementation of callback
@@ -22,13 +32,18 @@ public class Prisoner_kxiao implements Prisoner {
         nRounds++;
 
         // cache last play
+        lastLastLastPlay = lastLastPlay;
+        lastLastPlay = lastPlay;
         lastPlay = action;
+        
+        // if defect, increment counter
+        if (!action) { defects++; }
     }
 
     // test against itself (optional, for your convenience)
     public static void main(String[] args) {
-        Prisoner_cxzhang p1 = new Prisoner_cxzhang();
-        Prisoner_cxzhang p2 = new Prisoner_cxzhang();
+        Prisoner_kxiao p1 = new Prisoner_kxiao();
+        Prisoner_kxiao p2 = new Prisoner_kxiao();
 
         // test run using provided utility
         int[] payoffs = Prisoner.test(p1, p2);
