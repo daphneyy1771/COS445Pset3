@@ -1,4 +1,4 @@
-// Prisoner_cxzhang.java: sample implementation for Prisoner
+// Prisoner_kxiao.java: sample implementation for Prisoner
 // COS 445, Spring 2017
 
 public class Prisoner_kxiao implements Prisoner {

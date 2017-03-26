@@ -4,7 +4,7 @@
 public class Prisoner_test implements Prisoner {
     private int nRounds = 0; // how many rounds have elapsed?
     private boolean lastPlay = true; // what did my partner play last?
-
+    private boolean lastLastPlay = true; // what did my partner play 2 turns ago?
     // sample implementation of all cooperate
     public boolean cooperateAll() {
         return true;
@@ -19,10 +19,17 @@ public class Prisoner_test implements Prisoner {
     public boolean titfortat() {
         return lastPlay;
     }
+    
+    // sample implementation of tit-for-tat-forgiving
+    public boolean titfortat2() {
+        if (!lastPlay && !lastLastPlay)
+            return false;
+        return true;
+    }
        
     // one to use in test
     public boolean cooperate() {
-        return titfortat();
+        return titfortat2();
     }
     
     // sample implementation of callback
@@ -31,6 +38,7 @@ public class Prisoner_test implements Prisoner {
         nRounds++;
 
         // cache last play
+        lastLastPlay = lastPlay;
         lastPlay = action;
     }
 
