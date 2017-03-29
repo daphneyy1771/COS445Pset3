@@ -18,8 +18,10 @@ public class Centipede_karans implements Centipede {
         // don't push illegally at final round
         if (t == 100) return false;
 
+        return Math.random() < 0.5;
+
         // otherwise, make it last as long
-        return t <= averageLength;
+       // return t <= averageLength;
     }
 
     // test against itself (optional, for your convenience)

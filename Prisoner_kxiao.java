@@ -1,29 +1,77 @@
 // Prisoner_kxiao.java: sample implementation for Prisoner
 // COS 445, Spring 2017
+import java.util.*;
 
 public class Prisoner_kxiao implements Prisoner {
     private int nRounds = 0; // how many rounds have elapsed?
     private boolean lastPlay = true; // what did my partner play last?
-    private boolean lastLastPlay = true; // what did my partner play 2 rounds ago?
-    private boolean lastLastLastPlay = true; // what did my partner play 3 rounds ago?
-    private int defects = 0; // how many times has my partner defected
+   // private boolean lastLastPlay = true; // what did my partner play 2 rounds ago?
+   // private boolean lastLastLastPlay = true; // what did my partner play 3 rounds ago?
+   // private int defects = 0; // how many times has my partner defected
+    private boolean lastMyPlay = true;
+
+    private boolean isCoop = true;
+
+    private int grimtrig = 0;
+    private boolean startedTrig = false;
+
+    // implementation of defecting every other turn
+    private boolean ouralgo() {
+        // Play tit-for-tat for first 20 rounds in case other player wants to defect first
+        if (nRounds < 20) {
+            lastMyPlay = lastPlay;
+            return lastPlay;
+        }
+
+         // already alternating
+        if (lastPlay != lastMyPlay) {
+            if (startedTrig = false) {
+                startedTrig = true;
+            }
+            lastMyPlay = lastPlay;
+            return lastMyPlay;
+        }
+
+        // Give our opponents 5 times to fix their algorithm in case alternate together
+        if (grimtrig > 4) return false;
+
+        // For some reason opponent decided not to play with our strategy, but we are forgiving,
+        // so we play cooperate for an extra few times
+        if (startedTrig) {
+            // Supposed to play cooperate but played defect instead
+            if (!lastPlay && !lastMyPlay) grimtrig++;
+            lastMyPlay = lastPlay;
+            return lastMyPlay;
+        }
+
+
+        // Randomly decide to defect if playing against tit-for-tat
+        if (Math.random() < 0.5) {
+            if (isCoop == true) isCoop = false;
+            else isCoop = true;
+        }
+
+        lastMyPlay = isCoop;
+        return isCoop;
+    }
 
     // sample implementation of tit-for-tat
     public boolean cooperate() {
-        // if partner defected three times in a row, then defect
-        if (!lastPlay && !lastLastPlay && !lastLastLastPlay) {
-            return false;
-        }
-        else {
-            // after round 800, return defect randomly
-            // with quadratically increaasing probability 
-            if (nRounds > 799) {
-                double cutoff = ((nRounds-799) * (nRounds-799)) / (200.0 * 200.0) * 0.8;
-                return Math.random() > cutoff;
-            }
-            else
-                return true;
-        }
+        return ouralgo();
+        // // if partner defected three times in a row, then defect
+        // if (!lastPlay && !lastLastPlay && !lastLastLastPlay) {
+        //     return false;
+        // }
+        // else {
+        //     // after round 800, return defect randomly
+        //     // with quadratically increaasing probability 
+        //     if (nRounds > 799) {
+        //         double cutoff = ((nRounds-799) * (nRounds-799)) / (200.0 * 200.0) * 0.8;
+        //         return Math.random() > cutoff;
+        //     }
+        //     else
+        //         return true;
+        // }
     }
 
     // sample implementation of callback
@@ -32,18 +80,20 @@ public class Prisoner_kxiao implements Prisoner {
         nRounds++;
 
         // cache last play
-        lastLastLastPlay = lastLastPlay;
-        lastLastPlay = lastPlay;
+        //lastLastLastPlay = lastLastPlay;
+        //lastLastPlay = lastPlay;
         lastPlay = action;
         
         // if defect, increment counter
-        if (!action) { defects++; }
+       // if (!action) { defects++; }
+
+
     }
 
     // test against itself (optional, for your convenience)
     public static void main(String[] args) {
         Prisoner_kxiao p1 = new Prisoner_kxiao();
-        Prisoner_kxiao p2 = new Prisoner_kxiao();
+        Prisoner_cxzhang p2 = new Prisoner_cxzhang();
 
         // test run using provided utility
         int[] payoffs = Prisoner.test(p1, p2);

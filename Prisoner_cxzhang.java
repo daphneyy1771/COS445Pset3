@@ -7,10 +7,10 @@ public class Prisoner_cxzhang implements Prisoner {
 
     // sample implementation of tit-for-tat
     public boolean cooperate() {
-        // every 100 rounds, play something random (a bad idea)
-        if (nRounds % 100 == 99) {
-            return Math.random() < 0.5;
-        }
+        // // every 100 rounds, play something random (a bad idea)
+        // if (nRounds % 100 == 99) {
+        //     return Math.random() < 0.5;
+        // }
 
         // otherwise, copy partner's last move
         return lastPlay;

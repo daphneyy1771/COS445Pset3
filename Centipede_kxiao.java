@@ -22,7 +22,7 @@ public class Centipede_kxiao implements Centipede {
 		// Don't push in 100th round
 		if (t == 100) return false;
 
-		// Goal is to push every round right now
+		// Goal is to push every round
 		return true;
 
 	}
