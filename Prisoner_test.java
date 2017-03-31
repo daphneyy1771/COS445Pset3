@@ -29,7 +29,7 @@ public class Prisoner_test implements Prisoner {
        
     // one to use in test
     public boolean cooperate() {
-        return titfortat2();
+        return titfortat();
     }
     
     // sample implementation of callback

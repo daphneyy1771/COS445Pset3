@@ -14,13 +14,18 @@ public class Centipede_kxiao implements Centipede {
 
 	// Returns true to push, false to end the game
 	public boolean push(int t) {
-		if (t == 1) asAlice = true;
+    // Don't push in 98th round if Bob
+    // Don't push in 99th round if Alice
+    // Can't push in 100th round if Bob
+    if (t > 97) return false;
 
-		// Don't push in 99th round if playing as Alice
-		if (asAlice && t == 99) return false;
+		// if (t == 1) asAlice = true;
 
-		// Don't push in 100th round
-		if (t == 100) return false;
+		// // Don't push in 99th round if playing as Alice
+		// if (asAlice && t == 99) return false;
+
+		// // Don't push in 100th round
+		// if (t == 100) return false;
 
 		// Goal is to push every round
 		return true;
@@ -29,7 +34,7 @@ public class Centipede_kxiao implements Centipede {
 
 	public static void main(String[] args) {
         Centipede_kxiao p1;
-        Centipede_karans p2; 
+        Centipede_kxiao p2; 
         int[] payoffs;
         int[] totals = new int[2];
         totals[0] = 0; //kxiao
@@ -38,7 +43,7 @@ public class Centipede_kxiao implements Centipede {
         // test without history
         System.out.println("--- first round, no history");
         p1 = new Centipede_kxiao();
-        p2 = new Centipede_karans();
+        p2 = new Centipede_kxiao();
         double[] noHistory = {-1, -1, -1, -1};
         boolean amIAlice = false;
 
@@ -73,7 +78,7 @@ public class Centipede_kxiao implements Centipede {
         // test with history: pretend p1 terminates way earlier than p2
         System.out.println("--- round with fictitious history");
         p1 = new Centipede_kxiao(); // notice that instances get wiped between games
-        p2 = new Centipede_karans();
+        p2 = new Centipede_kxiao();
         double[] history = {7.1, 7.2, 53.1, 53.2};
         payoffs = Centipede.test(p1, p2, history);
         System.out.println("Player 1's payoff: " + payoffs[0]);

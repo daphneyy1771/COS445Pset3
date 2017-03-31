@@ -5,9 +5,9 @@ import java.util.*;
 public class Prisoner_kxiao implements Prisoner {
     private int nRounds = 0; // how many rounds have elapsed?
     private boolean lastPlay = true; // what did my partner play last?
-   // private boolean lastLastPlay = true; // what did my partner play 2 rounds ago?
+    //private boolean lastLastPlay = true; // what did my partner play 2 rounds ago?
    // private boolean lastLastLastPlay = true; // what did my partner play 3 rounds ago?
-   // private int defects = 0; // how many times has my partner defected
+    private int defects = 0; // how many times has my partner defected
     private boolean lastMyPlay = true;
 
     private boolean isCoop = true;
@@ -18,35 +18,37 @@ public class Prisoner_kxiao implements Prisoner {
     // implementation of defecting every other turn
     private boolean ouralgo() {
         // Play tit-for-tat for first 20 rounds in case other player wants to defect first
+        // The goal is to observe the other player's behavior
         if (nRounds < 20) {
             lastMyPlay = lastPlay;
             return lastPlay;
         }
 
+        // Give our opponents 5 times to fix their algorithm in case alternate together
+        if (grimtrig > 4) return false;
+
          // already alternating
         if (lastPlay != lastMyPlay) {
-            if (startedTrig = false) {
+            if (startedTrig == false) {
                 startedTrig = true;
             }
             lastMyPlay = lastPlay;
             return lastMyPlay;
         }
 
-        // Give our opponents 5 times to fix their algorithm in case alternate together
-        if (grimtrig > 4) return false;
-
         // For some reason opponent decided not to play with our strategy, but we are forgiving,
-        // so we play cooperate for an extra few times
+        // so we play tit-for-tat to let them fix their algorithm
         if (startedTrig) {
             // Supposed to play cooperate but played defect instead
-            if (!lastPlay && !lastMyPlay) grimtrig++;
+            if (!lastPlay && !lastMyPlay) {
+                grimtrig++;
+            }
             lastMyPlay = lastPlay;
             return lastMyPlay;
         }
 
-
         // Randomly decide to defect if playing against tit-for-tat
-        if (Math.random() < 0.5) {
+        if (Math.random() < 0.75) {
             if (isCoop == true) isCoop = false;
             else isCoop = true;
         }
@@ -58,20 +60,6 @@ public class Prisoner_kxiao implements Prisoner {
     // sample implementation of tit-for-tat
     public boolean cooperate() {
         return ouralgo();
-        // // if partner defected three times in a row, then defect
-        // if (!lastPlay && !lastLastPlay && !lastLastLastPlay) {
-        //     return false;
-        // }
-        // else {
-        //     // after round 800, return defect randomly
-        //     // with quadratically increaasing probability 
-        //     if (nRounds > 799) {
-        //         double cutoff = ((nRounds-799) * (nRounds-799)) / (200.0 * 200.0) * 0.8;
-        //         return Math.random() > cutoff;
-        //     }
-        //     else
-        //         return true;
-        // }
     }
 
     // sample implementation of callback
@@ -80,12 +68,12 @@ public class Prisoner_kxiao implements Prisoner {
         nRounds++;
 
         // cache last play
-        //lastLastLastPlay = lastLastPlay;
-        //lastLastPlay = lastPlay;
+       // lastLastLastPlay = lastLastPlay;
+       // lastLastPlay = lastPlay;
         lastPlay = action;
         
         // if defect, increment counter
-       // if (!action) { defects++; }
+        if (!action) { defects++; }
 
 
     }
