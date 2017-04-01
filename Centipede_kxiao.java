@@ -1,12 +1,13 @@
-import java.lang.*;
-import java.util.*;
-import java.io.*;
-
+/*****************************************************************************/
+/*  Names: Daphne Yang, Kyle Xiao                                            */
+/*  Net ID: daphney, kxiao                                                   */
+/*  Assignment 3 Problem 2: Centipede                                        */
+/*****************************************************************************/
 public class Centipede_kxiao implements Centipede {
-	private boolean asAlice = false; // who are we playing as?
-	private double alice = -1;
-	private double bob = -1;
+	private double alice = -1; // Alice's average payoff
+	private double bob = -1; // Bob's average payoff
 
+  // initialize centipede
 	public void init(double a, double b) {
 		alice = a;
 		bob = b;
@@ -14,24 +15,18 @@ public class Centipede_kxiao implements Centipede {
 
 	// Returns true to push, false to end the game
 	public boolean push(int t) {
-    // Don't push in 98th round if Bob
-    // Don't push in 99th round if Alice
-    // Can't push in 100th round if Bob
+    // Bob's average payoff is higher than expected
+    if (t == 97 && bob > 99) return false;
+
+    // Don't push in round 98 as Bob, round 99 as Alice
     if (t > 97) return false;
 
-		// if (t == 1) asAlice = true;
-
-		// // Don't push in 99th round if playing as Alice
-		// if (asAlice && t == 99) return false;
-
-		// // Don't push in 100th round
-		// if (t == 100) return false;
-
-		// Goal is to push every round
+		// Goal is to push as many rounds as possible
 		return true;
 
 	}
 
+  // test
 	public static void main(String[] args) {
         Centipede_kxiao p1;
         Centipede_kxiao p2; 
@@ -77,9 +72,9 @@ public class Centipede_kxiao implements Centipede {
 
         // test with history: pretend p1 terminates way earlier than p2
         System.out.println("--- round with fictitious history");
-        p1 = new Centipede_kxiao(); // notice that instances get wiped between games
+        p1 = new Centipede_kxiao();
         p2 = new Centipede_kxiao();
-        double[] history = {7.1, 7.2, 53.1, 53.2};
+        double[] history = {98, -1, -1, 101};
         payoffs = Centipede.test(p1, p2, history);
         System.out.println("Player 1's payoff: " + payoffs[0]);
         System.out.println("Player 2's payoff: " + payoffs[1]);

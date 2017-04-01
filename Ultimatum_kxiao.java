@@ -1,4 +1,8 @@
-
+/*****************************************************************************/
+/*  Names: Daphne Yang, Kyle Xiao                                            */
+/*  Net ID: daphney, kxiao                                                   */
+/*  Assignment 3 Problem 3: Ultimatum                                        */
+/*****************************************************************************/
 public class Ultimatum_kxiao implements Ultimatum {
     // Alice strategy
     public int propose(double a) {
@@ -12,6 +16,7 @@ public class Ultimatum_kxiao implements Ultimatum {
         return (x < 100);
     }
 
+    // Test client
     public static void main(String[] args) {
         Ultimatum_kxiao p1, p2;
         int[] payoffs;
@@ -27,7 +32,7 @@ public class Ultimatum_kxiao implements Ultimatum {
 
         // test with history
         System.out.println("--- round with fictitious history");
-        p1 = new Ultimatum_kxiao(); // notice that instances get wiped between games
+        p1 = new Ultimatum_kxiao(); 
         p2 = new Ultimatum_kxiao();
         double[] history = {77.7, 77.7};
         payoffs = Ultimatum.test(p1, p2, history);

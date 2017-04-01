@@ -1,10 +1,13 @@
 // Prisoner_cxzhang.java: sample implementation for Prisoner
 // COS 445, Spring 2017
+import java.util.*;
 
 public class Prisoner_test implements Prisoner {
     private int nRounds = 0; // how many rounds have elapsed?
     private boolean lastPlay = true; // what did my partner play last?
     private boolean lastLastPlay = true; // what did my partner play 2 turns ago?
+    private boolean lastMyPlay = true; // what i played
+    private boolean startedTrig = false;
     // sample implementation of all cooperate
     public boolean cooperateAll() {
         return true;
@@ -26,10 +29,30 @@ public class Prisoner_test implements Prisoner {
             return false;
         return true;
     }
+
+    private boolean alternate() {
+        if (lastPlay != lastMyPlay) {
+            if (startedTrig == false) startedTrig = true;
+        }
+
+        if (startedTrig) {
+            lastMyPlay = lastPlay;
+            return lastMyPlay;
+        }
+
+        if (Math.random() < 0.5) {
+            lastMyPlay = !lastMyPlay;
+            return lastMyPlay;
+        }
+
+        return lastMyPlay;
+
+
+    }
        
     // one to use in test
     public boolean cooperate() {
-        return titfortat();
+        return alternate();
     }
     
     // sample implementation of callback
